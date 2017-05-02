@@ -1,0 +1,14 @@
+.common-margin{
+	margin-left: 10%; 
+	margin-right: 10%; 
+	margin-top: 1%;
+}
+
+#table-machine{
+	overflow-x:auto;
+}
+
+.center{
+	text-align: center;
+	font-size: 80px;
+}
