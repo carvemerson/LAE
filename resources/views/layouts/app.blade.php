@@ -50,7 +50,7 @@
                             @if (auth()->check())
 
                                 <li><a href="{{ route('home') }}">Home</a></li>
-                                <li><a href="{{ route('create_machine') }}">Cadastrar Máquina</a></li>
+                                <li><a href="{{ route('create_machine') }}">Register Machine</a></li>
 
                             @endif
                         </ul>
@@ -93,6 +93,7 @@
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.0/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     @yield('script')
 </body>

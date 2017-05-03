@@ -27,7 +27,7 @@
 
 
 Route::get('/', 'NewMachineController@index')->name('home');	
-Route::get('/curlstatus', 'NewMachineController@curlstatus')->name('curlstatus');
+Route::get('/ping', 'NewMachineController@ping')->name('ping');
 
 
 Route::group(['middleware' => 'auth'], function(){
@@ -43,10 +43,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('/delete/{id}', 'NewMachineController@destroy')->name('destroy_machine');
 
 	Route::get('/status', 'NewMachineController@status')->name('status_machine');
-
-	// Route::get('/home', 'HomeController@index')->name;
 });
-
 
 Auth::routes();
 

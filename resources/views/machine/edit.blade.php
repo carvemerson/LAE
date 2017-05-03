@@ -17,18 +17,25 @@
 	</div>
 	
 	<div class="form-group">
-		<label for="alocated_to">Alocated To:</label>
-		<input type="text" class="form-control" id="alocated_to" name="alocated_to" value="{{$machine->alocated_to}}">
+	  <label for="user_id">Alocated To:</label>
+	  <select class="form-control" id="user_id" name="user_id">
+	  	<option value="null"> </option>}
+	  	@foreach ($users as $user)	
+		  	@if($machine->user->id == $user->id)
+		  	    <option selected="selected" value="{{$user->id}}"> {{$user->name}}</option>}			  
+			@else
+				<option value="{{$user->id}}"> {{$user->name}}</option>}	
+			@endif
+	  	@endforeach
+	  </select>
 	</div>
+	
 
 	<div class="form-group">
-		<label for="alocated_to">Status:</label>
-		<input type="text" class="form-control" id="status" name="status" value="{{$machine->status}}">
+		<button type="submit" class="btn btn-default">Save</button>
 	</div>
 
-	<div class="form-group">
-		<button type="submit" class="btn btn-default">Salvar</button>
-	</div>
+	
 
 	<div class="form-group">
 		@include('machine.errors')

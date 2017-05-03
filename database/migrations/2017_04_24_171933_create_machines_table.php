@@ -18,7 +18,9 @@ class CreateMachinesTable extends Migration
             $table->string('ip_address')->unique();
             $table->string('name');
             $table->integer('user_id')->nullable();
+            $table->integer('created_by');
             $table->timestamp('last_contact')->nullable();
+            $table->timestamp('uptime')->nullable();
             $table->timestamps();
         });
     }

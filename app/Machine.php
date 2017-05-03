@@ -4,42 +4,77 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
-
+use Log;
 
 class Machine extends Model
 {	
+
+    /**
+     * The attributes that are date time.
+     *
+     * @var array
+     */
+    protected $dates = ['last_contact', 'last_contact', 'uptime'];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
 	protected $fillable = [
-        'ip_address', 'name', 'user_id', 'last_contact'
+        'ip_address', 'name', 'user_id', 'last_contact','last_contact', 'created_by'
     ];
+
+    /**
+     * Calculate the status from all machines
+     *
+     * @return array with "id" => "status" (online/offline)
+     */
 
     public static function statusPing()
     {
     	$machine = Machine::all();
-    
     	$online = array();
 
 		foreach ($machine as $m) {
-			// exec("ping -c1 ". $m->ip_address, $output, $return);
-            // $m->updated_at
             if($m->last_contact == null){
                 $online[$m->id] = "offline";
-            }else if( Carbon::create($m->last_contact)->diffInMinutes(Carbon::now()) <= 10){
-                $online[$m->id] = "online";
             }else{
-                $online[$m->id] = "offline";
+                $diff = Carbon::parse($m->last_contact)->diffInMinutes(Carbon::now());
+                if( $diff <= 10){
+                    $online[$m->id] = "online"; 
+                }else{
+                    $online[$m->id] = "offline";                
+                }
             }
-
-			// $online[$m->id] = $return ? "offline" : "online";
 		}
 
 		return $online;
     }
 
-    public static function updateContact($ip)
+     /**
+     * Updatade last_contact for the machine with ip $ip
+     *
+     * @return return success or fail  (1 or 0)
+     */
+
+    //curl -X GET "http://10.9.98.189:8000/ping?name=scientific&uptime=$(uptime -s | sed 's/[-, ,:]//g')"
+
+    public static function updateContact($data)
     {
-        return Machine::where('ip_address', $ip)->update(['last_contact' => Carbon::now()->toDateTimeString()]);
+        // dd($data);
+        return Machine::where('name', $data['name'])->
+                        update([
+                            'last_contact' => Carbon::now()->toDateTimeString(),
+                            'uptime' => Carbon::parse($data['uptime'])->toDateTimeString()
+                        ]) == 1 ? "true<br\>" : "false<br\>";
     }  
 
+     /**
+     * Relationship with a user
+     *
+     * @return $this object
+     */
     public function user()
     {
         return $this->belongsTo(User::class);

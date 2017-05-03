@@ -46,8 +46,7 @@ class NewMachineController extends Controller
      */
     public function store(RegistrationRequest $request)
     {
-
-        Machine::create($request->all());
+        Machine::create($request->all() + ['created_by' => auth()->user()->id]);
 
         return redirect('/');
     }
@@ -72,8 +71,15 @@ class NewMachineController extends Controller
     public function edit($id)
     {
         $machine = Machine::find($id);
-
-        return view('machine.edit', compact('machine'));
+        
+        if($machine->created_by == auth()->user()->id){
+        
+            $users = User::all();
+            return view('machine.edit', compact('machine', 'users'));
+        
+        }else{
+            return redirect()->home();
+        }
     }
 
     /**
@@ -98,14 +104,14 @@ class NewMachineController extends Controller
      */
     public function destroy($id)
     {
-        Machine::find($id)->delete();
+        Machine::where(['id' => $id, 'created_by' => auth()->user()->id])->delete();
 
         return redirect('/');
     }
 
 
     /**
-     * Ping to all machine stored in the DB.
+     * Calculate the last ping done by any registered machine
      *
      * @return \Illuminate\Http\Response
      */
@@ -114,8 +120,13 @@ class NewMachineController extends Controller
         return Machine::statusPing();
     }
 
-    public function curlstatus(Request $request)
+     /**
+     * Receive ping request from all registered machines
+     *
+     * @return success (1) or fail (0)
+     */
+    public function ping(Request $request)
     {   
-        return Machine::updateContact($request->ip());
+        return Machine::updateContact($request->all());
     }
 }
