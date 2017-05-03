@@ -68,18 +68,13 @@ class NewMachineController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Machine $machine)
     {
-        $machine = Machine::find($id);
-        
-        if($machine->created_by == auth()->user()->id){
-        
-            $users = User::all();
-            return view('machine.edit', compact('machine', 'users'));
-        
-        }else{
-            return redirect()->home();
-        }
+        $this->authorize('edit', $machine);
+         
+        $users = User::all();
+
+        return view('machine.edit', compact('machine', 'users'));
     }
 
     /**
@@ -89,9 +84,9 @@ class NewMachineController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(RegistrationRequest $request, $id)
+    public function update(RegistrationRequest $request, Machine $machine)
     {
-        Machine::find($id)->update($request->all());
+        $machine->update($request->all());
 
         return redirect('/');
     }

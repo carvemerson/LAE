@@ -37,10 +37,10 @@ Route::group(['middleware' => 'auth'], function(){
 
 	Route::get ('/show', 'NewMachineController@show')->name('show_machine');
 
-	Route::get ('/edit/{id}', 'NewMachineController@edit')->name('edit_machine');
-	Route::post('/edit/{id}', 'NewMachineController@update')->name('update_machine');
+	Route::get ('/edit/{machine}', 'NewMachineController@edit')->name('edit_machine');
+	Route::post('/edit/{machine}', 'NewMachineController@update')->name('update_machine');
 
-	Route::get('/delete/{id}', 'NewMachineController@destroy')->name('destroy_machine');
+	Route::get('/delete/{machine}', 'NewMachineController@destroy')->name('destroy_machine');
 
 	Route::get('/status', 'NewMachineController@status')->name('status_machine');
 });
