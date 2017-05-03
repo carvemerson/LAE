@@ -26,7 +26,6 @@
 
 			@foreach ($machines as $m)
 			<tr> 
-				
 				<td>{{$m->id}}</td>
 
 				<td>{{$m->ip_address}}</td> 
@@ -64,18 +63,15 @@
 				
 				
 				<td>
-					@if($m->created_by == auth()->user()->id)
-					
+
+					@if(Gate::check('edit', $m) )
 						<div class="btn-group  btn-group-xs" role="group" aria-label="...">
 							<a href="/edit/{{$m->id}}" class="btn btn-default" role="button">Editar</a>
 							
 							<a href="#" data-href="/delete/{{$m->id}}" data-toggle="modal" data-target="#confirm-delete" class="btn btn-default" role="button">Delete</a>
 						</div>
-
 					@else
-
-						------
-
+						-----
 					@endif
 				</td>
 
@@ -88,7 +84,7 @@
 
 @include('confirmation.confirmdialog')
 {{-- <a href="/new" class="btn btn-default" role="button">Cadastrar nova maquina</a> --}}
-<a id="reload" onclick="getstatus()" class="btn btn-default" role="button">Reload</a>
+{{-- <a id="reload" onclick="getstatus()" class="btn btn-default" role="button">Reload</a> --}}
 
 <p id="data"> </p>
 
