@@ -2,20 +2,21 @@
 _____
 
 ## On Linux 
-* Install **curl**
 * Open terminal (ctrl+alt+t)
-* Execute this command to open the crontab: (sudo is needed)
+* Install **curl** (if you don't have)
+* Open the crontab in edit mode (sudo is required)
 ```terminal
-crontab -e
+sudo crontab -e
 ```
 * Goto the end of file and add this command:
 
 ```
-*/1 * * * * curl -X GET "SITE_URL/ping?name=$(hostname)&uptime=$(uptime -s | sed 's/[-, ,:]//g')"
+*/1 * * * * curl -X GET "PUT_URL_HERE?name=$(hostname)&uptime=$(uptime -s | sed 's/[-, ,:]//g')"
 ```
 *
-  * Replace SITE_URL by the site root URL.
-  * Root is needed
+  * Replace PUT_URL_HERE by the site link.
 * Save the file
 * Close the Terminal
 * Host machine configuration done!!
+
+
