@@ -64,7 +64,7 @@
 				
 				<td>
 
-					@if(Gate::check('edit', $m) )
+					@if(Gate::check('owner', $m) )
 						<div class="btn-group  btn-group-xs" role="group" aria-label="...">
 							<a href="/edit/{{$m->id}}" class="btn btn-default" role="button">Editar</a>
 							

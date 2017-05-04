@@ -70,7 +70,7 @@ class NewMachineController extends Controller
      */
     public function edit(Machine $machine)
     {
-        $this->authorize('edit', $machine);
+        $this->authorize('owner', $machine);
          
         $users = User::all();
 
@@ -97,9 +97,11 @@ class NewMachineController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Machine $machine)
     {
-        Machine::where(['id' => $id, 'created_by' => auth()->user()->id])->delete();
+        $this->authorize('owner', $machine);
+        $machine->destroy();
+        // Machine::where(['id' => $id, 'created_by' => auth()->user()->id])->delete();
 
         return redirect('/');
     }

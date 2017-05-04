@@ -15,7 +15,7 @@ class MachinePolicy
         return $user->id === $machine->created_by;
     }
 
-    public function edit(User $user, Machine $machine)
+    public function owner(User $user, Machine $machine)
     {
         return $user->id === $machine->created_by;
     }
