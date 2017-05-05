@@ -26,7 +26,7 @@ class RegistrationRequest extends FormRequest
         return [
             'name' => 'required|min:3',
             'ip_address' => 'required|ip',
-            // 'user_id' => 'required|exists:users,id',
+            'user_id' => 'required|exists:users,id',
             // 'status' => 'required'
         ];
     }

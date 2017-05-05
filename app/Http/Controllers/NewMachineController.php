@@ -46,9 +46,25 @@ class NewMachineController extends Controller
      */
     public function store(RegistrationRequest $request)
     {
+        $this->validateIp($request, 'unique:machines,ip_address');
+
         Machine::create($request->all() + ['created_by' => auth()->user()->id]);
 
         return redirect('/');
+    }
+    
+    /**
+     * Validate a IP address
+     *
+     * @param RegistrationRequest $request
+     * @param String $ip_rule
+     * @return void
+     */
+    public function validateIp(RegistrationRequest $request, $ip_rule)
+    {
+        $this->validate($request, [
+            'ip_address' => $ip_rule, 
+        ]);
     }
 
     /**
@@ -86,6 +102,9 @@ class NewMachineController extends Controller
      */
     public function update(RegistrationRequest $request, Machine $machine)
     {
+        
+        $this->validateIp($request, 'unique:machines,ip_address,'.$machine->id);
+
         $machine->update($request->all());
 
         return redirect('/');
@@ -100,8 +119,8 @@ class NewMachineController extends Controller
     public function destroy(Machine $machine)
     {
         $this->authorize('owner', $machine);
-        $machine->destroy();
-        // Machine::where(['id' => $id, 'created_by' => auth()->user()->id])->delete();
+        
+        Machine::find($machine->id)->delete();
 
         return redirect('/');
     }
@@ -117,9 +136,10 @@ class NewMachineController extends Controller
         return Machine::statusPing();
     }
 
-     /**
+    /**
      * Receive ping request from all registered machines
      *
+     * @param Request $request
      * @return success (1) or fail (0)
      */
     public function ping(Request $request)
