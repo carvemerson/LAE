@@ -125,6 +125,8 @@ class NewMachineController extends Controller
         return redirect('/');
     }
 
+    
+
 
     /**
      * Calculate the last ping done by any registered machine
